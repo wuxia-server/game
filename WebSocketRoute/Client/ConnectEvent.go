@@ -5,7 +5,9 @@ import (
 	"github.com/team-zf/framework/messages"
 	"github.com/team-zf/framework/model"
 	"github.com/team-zf/framework/utils"
+	"github.com/wuxia-server/game/Client"
 	"github.com/wuxia-server/game/Data"
+	"github.com/wuxia-server/game/Manage"
 	"github.com/wuxia-server/game/WebSocketRoute/Code"
 )
 
@@ -33,6 +35,19 @@ func (e *ConnectEvent) WebSocketDirectCall(wsmd *model.WebSocketModel, resp *mes
 	if account.Status == 1 {
 		logger.Debug("该账户已被禁用")
 		resp.Code = Code.Client_Connect_AccountDisable
+	}
+
+	client := Client.NewClientModel(wsmd)
+	client.Account = account
+	Manage.AddClient(client)
+
+	user := Data.GetUserByAccountId(account.Id)
+	resp.Data["is_new"] = user == nil
+
+	if user != nil {
+		client.User = user
+		client.UpdateVigorRecover()
+		client.UpdateVitalityRecover()
 	}
 
 	logger.Debug("连接成功")

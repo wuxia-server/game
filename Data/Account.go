@@ -9,7 +9,7 @@ import (
 func GetAccountByToken(token string) (account *Table.Account) {
 	account = Table.NewAccount()
 	sqlstr := dal.MarshalGetSql(account, "token")
-	row := Control.DbModule.QueryRow(sqlstr, token)
+	row := Control.GateDB.QueryRow(sqlstr, token)
 	if row.Scan(
 		&account.Id,
 		&account.UserName,

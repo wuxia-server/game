@@ -13,17 +13,29 @@ func main() {
 	Control.App = framework.CreateApp(
 		modules.AppSetDebug(true),
 		modules.AppSetParse(true),
-		modules.AppSetPStatusTime(3*time.Second),
+		modules.AppSetPStatusTime(60*time.Second),
 	)
 	Control.App.OnConfigurationLoaded(func(app modules.IApp, conf *config.AppConfig) {
-		// 载入数据库模块
-		Control.DbModule = modules.NewDataBaseModule(
-			modules.DataBaseSetConf(conf.MySql),
-		)
-		app.AddModule(Control.DbModule)
+		// 载入数据库模块(账户服)
+		if item := conf.Settings["gate_db"]; item != nil {
+			settings := item.(map[string]interface{})
+			Control.GateDB = modules.NewDataBaseModule(
+				modules.DataBaseSetDsn(settings["dsn"].(string)),
+			)
+			app.AddModule(Control.GateDB)
+		}
+		// 载入数据库模块(逻辑服)
+		if item := conf.Settings["game_db"]; item != nil {
+			settings := item.(map[string]interface{})
+			Control.GameDB = modules.NewDataBaseModule(
+				modules.DataBaseSetDsn(settings["dsn"].(string)),
+			)
+			app.AddModule(Control.GameDB)
+		}
 
 		// 载入WS服务模块
 		app.AddModule(modules.NewWebSocketModule(
+			modules.WebSocketSetIpPort(":20301"),
 			modules.WebSocketSetRoute(WebSocketRoute.Route),
 		))
 	})
