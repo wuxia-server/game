@@ -1,0 +1,17 @@
+[
+	[1, [
+		["reward_item", 1011],
+		["reward_time", 1800],
+		["upgrade", 101001]
+	]],
+	[2, [
+		["reward_item", 1041],
+		["reward_time", 1800],
+		["upgrade", 102001]
+	]],
+	[3, [
+		["reward_item", 1021],
+		["reward_time", 1800],
+		["upgrade", 103001]
+	]]
+]
