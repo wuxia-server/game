@@ -14,15 +14,16 @@ func (e *Person) __TeamToJsonMap() map[string]interface{} {
 	return result
 }
 
-func (e *Person) GetTeamById(teamId int) *DataTable.UserTeam {
-	for _, val := range e.TeamList {
-		if val.TeamId == teamId {
-			return val
+func (e *Person) GetTeam(teamId int) (result *DataTable.UserTeam) {
+	for _, team := range e.TeamList {
+		if team.TeamId == teamId {
+			result = team
+			break
 		}
 	}
-	return nil
+	return
 }
 
 func (e *Person) HaveTeam(teamId int) bool {
-	return e.GetTeamById(teamId) != nil
+	return e.GetTeam(teamId) != nil
 }

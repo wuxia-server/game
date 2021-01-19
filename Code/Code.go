@@ -78,3 +78,41 @@ const (
 	Hero_FeedExp_QuantityInsufficient // 数量不足
 	Hero_FeedExp_HeroExpSpiledOver    // 该英雄经验已满
 )
+
+/**
+ * 丰收洞府
+ * 规则: (CMD*100) + iota
+ * 例如: CMD=1001; CODE=100101
+ */
+const (
+	_ = Cmd.Cave_Harvest*100 + iota
+
+	Cave_Harvest_CaveNotExists     // 没有这个洞府
+	Cave_Harvest_NotYetHarvestTime // 没到丰收时间
+)
+
+/**
+ * 升级洞府
+ * 规则: (CMD*100) + iota
+ * 例如: CMD=1001; CODE=100101
+ */
+const (
+	_ = Cmd.Cave_Upgrade*100 + iota
+
+	Cave_Upgrade_CaveNotExists    // 没有这个洞府
+	Cave_Upgrade_AlreadyFullLevel // 无法升级, 已满级或达到了角色等级
+	Cave_Upgrade_UnderCost        // 洞府升级成本不足
+)
+
+/**
+ * 副本攻打
+ * 规则: (CMD*100) + iota
+ * 例如: CMD=1001; CODE=100101
+ */
+const (
+	_ = Cmd.Dungeon_Attack*100 + iota
+
+	Dungeon_Attack_StoryNotExists    // 没有这个关卡
+	Dungeon_Attack_NoRights          // 没有权限攻打
+	Dungeon_Attack_VigorInsufficient // 体力不足
+)

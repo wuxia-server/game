@@ -3,10 +3,10 @@ package Hero
 import (
 	"github.com/team-zf/framework/Network"
 	"github.com/team-zf/framework/messages"
-	"github.com/team-zf/framework/tables"
 	"github.com/team-zf/framework/utils"
 	"github.com/wuxia-server/game/Code"
 	"github.com/wuxia-server/game/Manage"
+	"github.com/wuxia-server/game/StaticTable"
 )
 
 type FeedExp struct {
@@ -22,30 +22,33 @@ func (e *FeedExp) Parse() {
 }
 
 func (e *FeedExp) Handle(agent *Network.WebSocketAgent) uint32 {
-	client := Manage.GetPersonByAgent(agent)
+	person := Manage.GetPersonByAgent(agent)
+	// 没有权限; 未连接
+	if person == nil {
+		return messages.RC_NoPermission
+	}
 
-	tItem := tables.GetTable("item").ByKey(e.ItemId)
-	tHero := tables.GetTable("hero").ByKey(e.HeroId)
-	item := client.GetItemById(e.ItemId)
-	hero := client.GetHeroById(e.HeroId)
-
+	stItem := StaticTable.GetItem(e.ItemId)
+	dtItem := person.GetItem(e.ItemId)
 	// 没有这个物品
-	if tItem == nil || item == nil {
+	if stItem == nil || dtItem == nil {
 		return Code.Hero_FeedExp_ItemNotExists
 	}
 
+	stHero := StaticTable.GetHero(e.HeroId)
+	dtHero := person.GetHero(e.HeroId)
 	// 没有这个英雄
-	if tHero == nil || hero == nil {
+	if stHero == nil || dtHero == nil {
 		return Code.Hero_FeedExp_HeroNotExists
 	}
 
 	// 数量不足
-	if item.Num == 0 {
+	if dtItem.Num == 0 {
 		return Code.Hero_FeedExp_QuantityInsufficient
 	}
 
 	// 该英雄经验已满
-	if hero.Level >= 99 {
+	if dtHero.Level >= 99 {
 		return Code.Hero_FeedExp_HeroExpSpiledOver
 	}
 

@@ -6,6 +6,7 @@ import (
 	"github.com/team-zf/framework/utils"
 	"github.com/wuxia-server/game/Code"
 	"github.com/wuxia-server/game/Manage"
+	"github.com/wuxia-server/game/Rule"
 )
 
 type SetWarTeam struct {
@@ -19,20 +20,24 @@ func (e *SetWarTeam) Parse() {
 }
 
 func (e *SetWarTeam) Handle(agent *Network.WebSocketAgent) uint32 {
-	client := Manage.GetPersonByAgent(agent)
+	person := Manage.GetPersonByAgent(agent)
+	// 没有权限; 未连接
+	if person == nil {
+		return messages.RC_NoPermission
+	}
 
-	if client.User.WarTeamId == e.TeamId {
+	if person.User.WarTeamId == e.TeamId {
 		return Code.User_SetWarTeam_AlreadyWar
 	}
 
-	if client.GetTeamById(e.TeamId) == nil {
+	if person.GetTeam(e.TeamId) == nil {
 		return Code.User_SetWarTeam_TeamNotExists
 	}
 
-	client.User.WarTeamId = e.TeamId
-	client.User.Save()
+	person.User.WarTeamId = e.TeamId
+	person.User.Save()
 
-	//client.User.ToJsonMap()
+	e.Mod(Rule.RULE_USER, person.User.ToJsonMap())
 
 	return messages.RC_Success
 }

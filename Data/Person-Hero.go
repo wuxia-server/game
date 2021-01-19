@@ -14,15 +14,16 @@ func (e *Person) __HeroToJsonMap() map[string]interface{} {
 	return result
 }
 
-func (e *Person) GetHeroById(heroId int) *DataTable.UserHero {
+func (e *Person) GetHero(heroId int) (result *DataTable.UserHero) {
 	for _, hero := range e.HeroList {
 		if hero.HeroId == heroId {
-			return hero
+			result = hero
+			break
 		}
 	}
-	return nil
+	return
 }
 
 func (e *Person) HaveHero(heroId int) bool {
-	return e.GetHeroById(heroId) != nil
+	return e.GetHero(heroId) != nil
 }

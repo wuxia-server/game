@@ -13,11 +13,11 @@ var (
 	 * key: 账户ID(AccoundId)
 	 * val: Person
 	 */
-	persons map[int64]*Data.Person
+	_PersonList map[int64]*Data.Person
 )
 
 func init() {
-	persons = make(map[int64]*Data.Person)
+	_PersonList = make(map[int64]*Data.Person)
 }
 
 func AddPerson(person *Data.Person) error {
@@ -26,7 +26,7 @@ func AddPerson(person *Data.Person) error {
 	}
 
 	mutex.Lock()
-	persons[person.AccountId()] = person
+	_PersonList[person.AccountId()] = person
 	mutex.Unlock()
 	return nil
 }
@@ -35,7 +35,7 @@ func GetPersonByAgent(agent *Network.WebSocketAgent) *Data.Person {
 	mutex.RLock()
 	defer mutex.RUnlock()
 
-	for _, person := range persons {
+	for _, person := range _PersonList {
 		if person.Agent == agent {
 			return person
 		}

@@ -13,7 +13,8 @@ type RoleLv struct {
 }
 
 var (
-	_RoleLvList []*RoleLv
+	_RoleLvList     []*RoleLv
+	_RoleLevelLimit int
 )
 
 func init() {
@@ -40,4 +41,18 @@ func GetRoleLv(level int) (result *RoleLv) {
 		}
 	}
 	return
+}
+
+func GetRoleLevelLimit() int {
+	if _RoleLevelLimit > 0 {
+		return _RoleLevelLimit
+	}
+	levelLimit := 0
+	for _, row := range _RoleLvList {
+		if row.Level > levelLimit {
+			levelLimit = row.Level
+		}
+	}
+	_RoleLevelLimit = levelLimit
+	return levelLimit
 }

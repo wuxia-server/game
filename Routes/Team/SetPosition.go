@@ -6,6 +6,7 @@ import (
 	"github.com/team-zf/framework/utils"
 	"github.com/wuxia-server/game/Code"
 	"github.com/wuxia-server/game/Manage"
+	"github.com/wuxia-server/game/Rule"
 )
 
 type SetPosition struct {
@@ -23,9 +24,13 @@ func (e *SetPosition) Parse() {
 }
 
 func (e *SetPosition) Handle(agent *Network.WebSocketAgent) uint32 {
-	client := Manage.GetPersonByAgent(agent)
-	team := client.GetTeamById(e.TeamId)
+	person := Manage.GetPersonByAgent(agent)
+	// 没有权限; 未连接
+	if person == nil {
+		return messages.RC_NoPermission
+	}
 
+	team := person.GetTeam(e.TeamId)
 	// 没有这个队伍
 	if team == nil {
 		return Code.Team_SetPosition_TeamNotExists
@@ -42,7 +47,7 @@ func (e *SetPosition) Handle(agent *Network.WebSocketAgent) uint32 {
 	}
 
 	// 没有这个英雄
-	if client.HaveHero(e.HeroId) {
+	if person.HaveHero(e.HeroId) {
 		return Code.Team_SetPosition_HeroNotExists
 	}
 
@@ -59,6 +64,8 @@ func (e *SetPosition) Handle(agent *Network.WebSocketAgent) uint32 {
 		team.Position5 = e.HeroId
 	}
 	team.Save()
+
+	e.Mod(Rule.RULE_TEAM, team.ToJsonMap())
 
 	return messages.RC_Success
 }

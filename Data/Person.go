@@ -38,6 +38,13 @@ func (e *Person) AccountId() int64 {
 	return e.Account.Id
 }
 
+func (e *Person) Level() int {
+	if e.User == nil {
+		return 0
+	}
+	return e.User.Level
+}
+
 func (e *Person) JoinToUserId(id int) int64 {
 	str := fmt.Sprintf("%d%d", e.UserId(), id)
 	v, _ := strconv.ParseInt(str, 10, 64)
