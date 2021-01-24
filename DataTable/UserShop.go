@@ -7,6 +7,7 @@ import (
 	"github.com/team-zf/framework/logger"
 	"github.com/team-zf/framework/utils"
 	"github.com/wuxia-server/game/Control"
+	"github.com/wuxia-server/game/StaticTable"
 	"strconv"
 	"time"
 )
@@ -131,6 +132,44 @@ func (e *UserShop) Save() {
 		return err
 	}
 	Control.GameDB.AddMsg(msg)
+}
+
+func (e *UserShop) GenerateGoodsList() {
+	shop := StaticTable.GetShop(e.ShopId)
+	details := StaticTable.GetShopDetailList(shop.GoodsBank)
+
+	// 多组多项
+	groups := make(map[int][]*StaticTable.ShopDetail)
+	for _, v := range details {
+		if groups[v.GoodsRank] == nil {
+			groups[v.GoodsRank] = make([]*StaticTable.ShopDetail, 0)
+		}
+		groups[v.GoodsRank] = append(groups[v.GoodsRank], v)
+	}
+
+	// 多组单项
+	group := make(map[int]*StaticTable.ShopDetail)
+	for rank, arr := range groups {
+		np := 0
+		prob := utils.PercentV()
+		for _, v := range arr {
+			if v.GoodsRankProb+np >= prob {
+				group[rank] = v
+				break
+			}
+			np += v.GoodsRankProb
+		}
+	}
+
+	// 更新商品列表
+	e.DetailList = NewShopDetailList()
+	for rank, v := range group {
+		if v.DiscountParams == nil {
+			e.DetailList.Items[rank] = NewShopDetail(v.Id, 0, nil)
+		} else {
+			e.DetailList.Items[rank] = NewShopDetail(v.Id, 0, v.DiscountParams.Rnd())
+		}
+	}
 }
 
 func NewUserShop() *UserShop {

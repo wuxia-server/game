@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/team-zf/framework"
+	"github.com/team-zf/framework/DB"
 	"github.com/team-zf/framework/Network"
 	"github.com/team-zf/framework/config"
 	"github.com/team-zf/framework/modules"
@@ -22,16 +23,18 @@ func main() {
 		// 载入数据库模块(账户服)
 		if item := conf.Settings["gate_db"]; item != nil {
 			settings := item.(map[string]interface{})
-			Control.GateDB = modules.NewDataBaseModule(
-				modules.DataBaseSetDsn(settings["dsn"].(string)),
+			Control.GateDB = DB.NewDataBaseModule(
+				DB.DataBaseSetName("GateDB"),
+				DB.DataBaseSetDsn(settings["dsn"].(string)),
 			)
 			app.AddModule(Control.GateDB)
 		}
 		// 载入数据库模块(逻辑服)
 		if item := conf.Settings["game_db"]; item != nil {
 			settings := item.(map[string]interface{})
-			Control.GameDB = modules.NewDataBaseModule(
-				modules.DataBaseSetDsn(settings["dsn"].(string)),
+			Control.GameDB = DB.NewDataBaseModule(
+				DB.DataBaseSetName("GameDB"),
+				DB.DataBaseSetDsn(settings["dsn"].(string)),
 			)
 			app.AddModule(Control.GameDB)
 		}
