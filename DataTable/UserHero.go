@@ -2,13 +2,15 @@ package DataTable
 
 import (
 	"github.com/team-zf/framework/dal"
+	"github.com/team-zf/framework/logger"
+	"github.com/wuxia-server/game/Control"
 )
 
 type UserHero struct {
 	dal.BaseTable
 
 	Id           int64 `db:"id,pk"`         // 主键 (用户ID+英雄ID)
-	UserId       int   `db:"user_id,!mod"`  // 用户ID
+	UserId       int64 `db:"user_id,!mod"`  // 用户ID
 	HeroId       int   `db:"hero_id,!mod"`  // 英雄ID
 	Level        int   `db:"level"`         // 等级
 	Exp          int   `db:"exp"`           // 经验
@@ -48,6 +50,28 @@ func (e *UserHero) ToJsonMap() map[string]interface{} {
 	result["spirit_slot_4"] = e.SpiritSlot4
 	result["fight_power"] = e.FightPower
 	return result
+}
+
+func (e *UserHero) Save() {
+	msg := &dal.DalMessage{
+		UserId: e.UserId,
+		Table:  e,
+	}
+	msg.RunFunc = func(db dal.IConnDB) error {
+		_, err := db.Exec(dal.MarshalModSql(e),
+			e.Id, e.UserId, e.HeroId,
+			e.Level, e.Exp, e.Evolution,
+			e.Latent1, e.Latent2, e.Latent3, e.Latent4,
+			e.TalismanSlot, e.MountSlot,
+			e.SpiritSlot1, e.SpiritSlot2, e.SpiritSlot3, e.SpiritSlot4,
+			e.FightPower,
+		)
+		if err != nil {
+			logger.Error("数据表[%s]保存失败, 错误原因: %+v", e.GetTableName(), err)
+		}
+		return err
+	}
+	Control.GameDB.AddMsg(msg)
 }
 
 func NewUserHero() *UserHero {

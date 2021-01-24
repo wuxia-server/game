@@ -17,6 +17,7 @@ type ManualEducate struct {
 
 var (
 	_ManualEducateList []*ManualEducate
+	_ManualLevelLimit  int
 )
 
 func init() {
@@ -43,4 +44,18 @@ func GetManualEducate(level int) (result *ManualEducate) {
 		}
 	}
 	return
+}
+
+func GetManualLevelLimit() int {
+	if _ManualLevelLimit > 0 {
+		return _ManualLevelLimit
+	}
+	levelLimit := 0
+	for _, row := range _ManualEducateList {
+		if row.Level > levelLimit {
+			levelLimit = row.Level
+		}
+	}
+	_ManualLevelLimit = levelLimit
+	return levelLimit
 }

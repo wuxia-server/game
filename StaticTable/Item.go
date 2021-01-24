@@ -13,7 +13,7 @@ type Item struct {
 	SupportSell  bool        `ST:"sell_state"`     // 是否支持卖出
 	SellGetItems *Table.List `ST:"sell_get_items"` // 卖出获得物品列表
 	GetWays      *Table.List `ST:"get_ways"`       // 获得途径列表
-	ReelateValue int         `ST:"related_func"`   // 关联功能
+	RelatedValue int         `ST:"related_func"`   // 关联功能
 }
 
 var (

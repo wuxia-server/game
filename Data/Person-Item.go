@@ -35,6 +35,10 @@ func (e *Person) AddItem(itemId int, num int) (*Network.WebSocketDDM, error) {
 		return nil, errors.New(fmt.Sprintf("传入的数量有误(%d).", num))
 	}
 
+	if e.ItemList == nil {
+		e.ItemList = make([]*DataTable.UserItem, 0)
+	}
+
 	item := e.GetItem(itemId)
 	if item == nil {
 		item = new(DataTable.UserItem)
@@ -43,7 +47,7 @@ func (e *Person) AddItem(itemId int, num int) (*Network.WebSocketDDM, error) {
 		item.ItemId = itemId
 		item.Num = num
 		item.UpdateTime = time.Now()
-		e.ItemList[item.ItemId] = item
+		e.ItemList = append(e.ItemList, item)
 	} else {
 		item.Num += num
 	}

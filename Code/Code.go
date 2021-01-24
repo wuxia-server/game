@@ -116,3 +116,93 @@ const (
 	Dungeon_Attack_NoRights          // 没有权限攻打
 	Dungeon_Attack_VigorInsufficient // 体力不足
 )
+
+/**
+ * 抽卡
+ * 规则: (CMD*100) + iota
+ * 例如: CMD=1001; CODE=100101
+ */
+const (
+	_ = Cmd.Lottery_Card*100 + iota
+
+	Lottery_Card_LotteryNotExists // 没有这个抽奖项
+	Lottery_Card_UnderCost        // 抽奖成本不足
+)
+
+/**
+ * 图鉴升级
+ * 规则: (CMD*100) + iota
+ * 例如: CMD=1001; CODE=100101
+ */
+const (
+	_ = Cmd.Manual_Upgrade*100 + iota
+
+	Manual_Upgrade_DetailNotExists // 没有这个图鉴细节
+	Manual_Upgrade_LevelUpperLimit // 图鉴等级已达上限
+	Manual_Upgrade_UnderCost       // 图鉴升级成本不足
+)
+
+/**
+ * 商店刷新
+ * 规则: (CMD*100) + iota
+ * 例如: CMD=1001; CODE=100101
+ */
+const (
+	_ = Cmd.Shop_Refresh*100 + iota
+
+	Shop_Refresh_ShopNotExists     // 沒有这个商店
+	Shop_Refresh_ShopNotOpen       // 沒有开通这个商店
+	Shop_Refresh_NotSupportRefresh // 该商店不支持手动刷新
+	Shop_Refresh_UnderCost         // 商店刷新成本不足
+)
+
+/**
+ * 商品购买
+ * 规则: (CMD*100) + iota
+ * 例如: CMD=1001; CODE=100101
+ */
+const (
+	_ = Cmd.Shop_Buy*100 + iota
+
+	Shop_Buy_ShopNotExists   // 沒有这个商店
+	Shop_Buy_DetailNotExists // 没有这个商品
+	Shop_Buy_UnderCanbuy     // 商品购买次数不足
+	Shop_Buy_UnderCost       // 商品购买成本不足
+)
+
+/**
+ * 签到
+ * 规则: (CMD*100) + iota
+ * 例如: CMD=1001; CODE=100101
+ */
+const (
+	_ = Cmd.Sign_Sign*100 + iota
+
+	Sign_Sign_UnableSign  // 没有这个签到日
+	Sign_Sign_AlreadySign // 已经签到了
+)
+
+/**
+ * 补签
+ * 规则: (CMD*100) + iota
+ * 例如: CMD=1001; CODE=100101
+ */
+const (
+	_ = Cmd.Sign_SupplementSign*100 + iota
+
+	Sign_SupplementSign_UnableSign  // 没有这个签到日
+	Sign_SupplementSign_AlreadySign // 已经签到了
+)
+
+/**
+ * 领取任务奖励
+ * 规则: (CMD*100) + iota
+ * 例如: CMD=1001; CODE=100101
+ */
+const (
+	_ = Cmd.Task_Reward*100 + iota
+
+	Task_Reward_DetailNotExists // 没有这个任务细节
+	Task_Reward_UnableReward    // 未满足条件, 无法领取奖励
+	Task_Reward_AlreadyReward   // 已经领取过了
+)

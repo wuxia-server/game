@@ -43,3 +43,13 @@ func GetLotteryDetail(id int) (result *LotteryDetail) {
 	}
 	return
 }
+
+func GetLotteryDetailList(lotteryBank int) (result []*LotteryDetail) {
+	result = make([]*LotteryDetail, 0)
+	for _, row := range _LotteryDetailList {
+		if row.LotteryBank == lotteryBank {
+			result = append(result, row)
+		}
+	}
+	return
+}

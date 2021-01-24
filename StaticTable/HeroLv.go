@@ -41,3 +41,14 @@ func GetHeroLv(level int) (result *HeroLv) {
 	}
 	return
 }
+
+func GetHeroLvByExp(exp int) (result *HeroLv) {
+	for _, row := range _HeroLvList {
+		if row.NeedExp <= exp {
+			if result == nil || result.Level < row.Level {
+				result = row
+			}
+		}
+	}
+	return
+}

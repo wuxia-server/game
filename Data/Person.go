@@ -22,6 +22,8 @@ type Person struct {
 	SignList    []*DataTable.UserSign    // 签到列表
 	ManualList  []*DataTable.UserManual  // 图鉴列表
 	DungeonList []*DataTable.UserDungeon // 副本列表
+	ShopList    []*DataTable.UserShop    // 商店列表
+	TaskList    []*DataTable.UserTask    // 任务列表
 }
 
 func (e *Person) UserId() int64 {
@@ -104,6 +106,20 @@ func (e *Person) Load() {
 		}
 		e.DungeonList = dungeonList
 	}
+	if len(e.ShopList) == 0 {
+		shopList, err := Dal.GetShopListByUserId(e.UserId())
+		if err != nil {
+			panic(err)
+		}
+		e.ShopList = shopList
+	}
+	if len(e.TaskList) == 0 {
+		taskList, err := Dal.GetTaskListByUserId(e.UserId())
+		if err != nil {
+			panic(err)
+		}
+		e.TaskList = taskList
+	}
 }
 
 func (e *Person) ToJsonMap() map[string]interface{} {
@@ -116,5 +132,7 @@ func (e *Person) ToJsonMap() map[string]interface{} {
 		"manual":  e.__ManualToJson(),
 		"sign":    e.__SignToJsonMap(),
 		"dungeon": e.__DungeonToJsonMap(),
+		"shop":    e.__ShopToJsonMap(),
+		"task":    e.__TaskToJsonMap(),
 	}
 }
