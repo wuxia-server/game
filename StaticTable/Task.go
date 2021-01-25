@@ -3,7 +3,6 @@ package StaticTable
 import (
 	"github.com/team-zf/framework/Table"
 	"github.com/team-zf/framework/logger"
-	"github.com/team-zf/framework/utils"
 )
 
 type Task struct {
@@ -34,8 +33,7 @@ func init() {
 func GetTask(taskId int) (result *Task) {
 	for _, row := range _TaskList {
 		if row.TaskId == taskId {
-			newrow := utils.ReflectNew(row)
-			result = newrow.(*Task)
+			result = row
 			break
 		}
 	}

@@ -3,7 +3,6 @@ package StaticTable
 import (
 	"github.com/team-zf/framework/Table"
 	"github.com/team-zf/framework/logger"
-	"github.com/team-zf/framework/utils"
 )
 
 type CaveLv struct {
@@ -37,8 +36,7 @@ func init() {
 func GetCaveLv(id int) (result *CaveLv) {
 	for _, row := range _CaveLvList {
 		if row.Id == id {
-			newrow := utils.ReflectNew(row)
-			result = newrow.(*CaveLv)
+			result = row
 			break
 		}
 	}
@@ -48,8 +46,7 @@ func GetCaveLv(id int) (result *CaveLv) {
 func GetCaveLvList() (result []*CaveLv) {
 	result = make([]*CaveLv, 0)
 	for _, row := range _CaveLvList {
-		newrow := utils.ReflectNew(row)
-		result = append(result, newrow.(*CaveLv))
+		result = append(result, row)
 	}
 	return
 }

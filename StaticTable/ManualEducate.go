@@ -3,7 +3,6 @@ package StaticTable
 import (
 	"github.com/team-zf/framework/Table"
 	"github.com/team-zf/framework/logger"
-	"github.com/team-zf/framework/utils"
 )
 
 type ManualEducate struct {
@@ -38,8 +37,7 @@ func init() {
 func GetManualEducate(level int) (result *ManualEducate) {
 	for _, row := range _ManualEducateList {
 		if row.Level == level {
-			newrow := utils.ReflectNew(row)
-			result = newrow.(*ManualEducate)
+			result = row
 			break
 		}
 	}

@@ -3,7 +3,6 @@ package StaticTable
 import (
 	"github.com/team-zf/framework/Table"
 	"github.com/team-zf/framework/logger"
-	"github.com/team-zf/framework/utils"
 )
 
 type Lottery struct {
@@ -38,8 +37,7 @@ func init() {
 func GetLottery(lotteryId int) (result *Lottery) {
 	for _, row := range _LotteryList {
 		if row.LotteryId == lotteryId {
-			newrow := utils.ReflectNew(row)
-			result = newrow.(*Lottery)
+			result = row
 			break
 		}
 	}

@@ -74,9 +74,10 @@ const (
 	_ = Cmd.Hero_FeedExp*100 + iota
 
 	Hero_FeedExp_ItemNotExists        // 没有这个物品
+	Hero_FeedExp_InvalidItem          // 无效的物品
 	Hero_FeedExp_HeroNotExists        // 没有这个英雄
 	Hero_FeedExp_QuantityInsufficient // 数量不足
-	Hero_FeedExp_HeroExpSpiledOver    // 该英雄经验已满
+	Hero_FeedExp_HeroExpFull          // 这个英雄的经验已经满了
 )
 
 /**

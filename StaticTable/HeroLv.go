@@ -3,7 +3,6 @@ package StaticTable
 import (
 	"github.com/team-zf/framework/Table"
 	"github.com/team-zf/framework/logger"
-	"github.com/team-zf/framework/utils"
 )
 
 type HeroLv struct {
@@ -13,7 +12,8 @@ type HeroLv struct {
 }
 
 var (
-	_HeroLvList []*HeroLv
+	_HeroLvList     []*HeroLv
+	_HeroLevelLimit int
 )
 
 func init() {
@@ -34,8 +34,7 @@ func init() {
 func GetHeroLv(level int) (result *HeroLv) {
 	for _, row := range _HeroLvList {
 		if row.Level == level {
-			newrow := utils.ReflectNew(row)
-			result = newrow.(*HeroLv)
+			result = row
 			break
 		}
 	}
@@ -51,4 +50,18 @@ func GetHeroLvByExp(exp int) (result *HeroLv) {
 		}
 	}
 	return
+}
+
+func GetHeroLevelLimit() int {
+	if _HeroLevelLimit > 0 {
+		return _HeroLevelLimit
+	}
+	levelLimit := 0
+	for _, row := range _HeroLvList {
+		if row.Level > levelLimit {
+			levelLimit = row.Level
+		}
+	}
+	_HeroLevelLimit = levelLimit
+	return levelLimit
 }

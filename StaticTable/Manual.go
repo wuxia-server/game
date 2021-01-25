@@ -3,7 +3,6 @@ package StaticTable
 import (
 	"github.com/team-zf/framework/Table"
 	"github.com/team-zf/framework/logger"
-	"github.com/team-zf/framework/utils"
 )
 
 type Manual struct {
@@ -33,8 +32,7 @@ func init() {
 func GetManual(manualId int) (result *Manual) {
 	for _, row := range _ManualList {
 		if row.ManualId == manualId {
-			newrow := utils.ReflectNew(row)
-			result = newrow.(*Manual)
+			result = row
 			break
 		}
 	}

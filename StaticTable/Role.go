@@ -3,7 +3,6 @@ package StaticTable
 import (
 	"github.com/team-zf/framework/Table"
 	"github.com/team-zf/framework/logger"
-	"github.com/team-zf/framework/utils"
 )
 
 type Role struct {
@@ -33,8 +32,7 @@ func init() {
 func GetRole(roleId int) (result *Role) {
 	for _, row := range _RoleList {
 		if row.RoleId == roleId {
-			newrow := utils.ReflectNew(row)
-			result = newrow.(*Role)
+			result = row
 			break
 		}
 	}

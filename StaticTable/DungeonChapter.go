@@ -3,7 +3,6 @@ package StaticTable
 import (
 	"github.com/team-zf/framework/Table"
 	"github.com/team-zf/framework/logger"
-	"github.com/team-zf/framework/utils"
 	"github.com/wuxia-server/game/Const"
 )
 
@@ -36,8 +35,7 @@ func init() {
 func GetDungeonChapter(chapterId int) (result *DungeonChapter) {
 	for _, row := range _DungeonChapterList {
 		if row.ChapterId == chapterId {
-			newrow := utils.ReflectNew(row)
-			result = newrow.(*DungeonChapter)
+			result = row
 			break
 		}
 	}
@@ -51,8 +49,7 @@ func GetDungeonChapterFirst() (result *DungeonChapter) {
 func GetDungeonChapterList() (result []*DungeonChapter) {
 	result = make([]*DungeonChapter, 0)
 	for _, row := range _DungeonChapterList {
-		newrow := utils.ReflectNew(row)
-		result = append(result, newrow.(*DungeonChapter))
+		result = append(result, row)
 	}
 	return
 }

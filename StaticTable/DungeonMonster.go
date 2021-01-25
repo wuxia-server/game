@@ -3,7 +3,6 @@ package StaticTable
 import (
 	"github.com/team-zf/framework/Table"
 	"github.com/team-zf/framework/logger"
-	"github.com/team-zf/framework/utils"
 )
 
 type DungeonMonster struct {
@@ -39,8 +38,7 @@ func init() {
 func GetDungeonMonster(monsterId int) (result *DungeonMonster) {
 	for _, row := range _DungeonMonsterList {
 		if row.MonsterId == monsterId {
-			newrow := utils.ReflectNew(row)
-			result = newrow.(*DungeonMonster)
+			result = row
 			break
 		}
 	}

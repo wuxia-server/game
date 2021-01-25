@@ -5,6 +5,7 @@ import (
 	"github.com/team-zf/framework/messages"
 	"github.com/team-zf/framework/utils"
 	"github.com/wuxia-server/game/Code"
+	"github.com/wuxia-server/game/Const"
 	"github.com/wuxia-server/game/Manage"
 	"github.com/wuxia-server/game/Rule"
 	"github.com/wuxia-server/game/StaticTable"
@@ -35,6 +36,11 @@ func (e *FeedExp) Handle(agent *Network.WebSocketAgent) uint32 {
 		return Code.Hero_FeedExp_ItemNotExists
 	}
 
+	// 无效的物品
+	if stItem.ItemType != Const.ItemType_ExpCard {
+		return Code.Hero_FeedExp_InvalidItem
+	}
+
 	stHero := StaticTable.GetHero(e.HeroId)
 	dtHero := person.GetHero(e.HeroId)
 	// 没有这个英雄
@@ -48,9 +54,11 @@ func (e *FeedExp) Handle(agent *Network.WebSocketAgent) uint32 {
 		return Code.Hero_FeedExp_QuantityInsufficient
 	}
 
-	// 该英雄经验已满
-	if dtHero.Level >= 99 {
-		return Code.Hero_FeedExp_HeroExpSpiledOver
+	hlv := StaticTable.GetHeroLvByExp(dtHero.Exp)
+	nlv := StaticTable.GetHeroLv(hlv.Level + 1)
+	// 这个英雄的经验已经满了
+	if dtHero.Exp == nlv.NeedExp-1 {
+		return Code.Hero_FeedExp_HeroExpFull
 	}
 
 	// ### 处理消耗
@@ -67,14 +75,17 @@ func (e *FeedExp) Handle(agent *Network.WebSocketAgent) uint32 {
 		// 原始等级
 		originLevel := dtHero.Level
 
-		dtHero.Exp += stItem.RelatedValue
-		dtHero.Level = StaticTable.GetHeroLvByExp(dtHero.Exp).Level
-
+		exp := dtHero.Exp + stItem.RelatedValue
+		hlv := StaticTable.GetHeroLvByExp(exp)
 		// 超出角色等级
-		if dtHero.Level > person.Level() {
-			dtHero.Level = person.Level()
-			stNextHeroLv := StaticTable.GetHeroLv(dtHero.Level + 1)
-			dtHero.Exp = stNextHeroLv.NeedExp - 1
+		if hlv.Level > person.Level() {
+			hlv := StaticTable.GetHeroLv(person.Level())
+			nlv := StaticTable.GetHeroLv(person.Level() + 1)
+			dtHero.Level = hlv.Level
+			dtHero.Exp = nlv.NeedExp - 1
+		} else {
+			dtHero.Level = hlv.Level
+			dtHero.Exp = exp
 		}
 
 		// 升级了

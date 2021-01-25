@@ -3,12 +3,11 @@ package StaticTable
 import (
 	"github.com/team-zf/framework/Table"
 	"github.com/team-zf/framework/logger"
-	"github.com/team-zf/framework/utils"
 )
 
 type Item struct {
 	ItemId       int         `ST:"PK"`             // 物品ID
-	ItemType     int         `ST:"item_type"`      // 物品类型 (1.货币 2.英雄魂魄 3.英雄经验道具 4.普通材料)
+	ItemType     int         `ST:"item_type"`      // 物品类型 (1.货币 2.英雄碎片 3.经验卡 4.材料)
 	UseCondIds   *Table.List `ST:"use_limit"`      // 使用条件ID列表
 	SupportSell  bool        `ST:"sell_state"`     // 是否支持卖出
 	SellGetItems *Table.List `ST:"sell_get_items"` // 卖出获得物品列表
@@ -38,8 +37,7 @@ func init() {
 func GetItem(itemId int) (result *Item) {
 	for _, row := range _ItemList {
 		if row.ItemId == itemId {
-			newrow := utils.ReflectNew(row)
-			result = newrow.(*Item)
+			result = row
 			break
 		}
 	}

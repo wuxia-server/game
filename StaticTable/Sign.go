@@ -3,7 +3,6 @@ package StaticTable
 import (
 	"github.com/team-zf/framework/Table"
 	"github.com/team-zf/framework/logger"
-	"github.com/team-zf/framework/utils"
 	"time"
 )
 
@@ -36,8 +35,7 @@ func init() {
 func GetSign(day int) (result *Sign) {
 	for _, row := range _SignList {
 		if row.Day == day {
-			newrow := utils.ReflectNew(row)
-			result = newrow.(*Sign)
+			result = row
 			break
 		}
 	}

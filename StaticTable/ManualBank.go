@@ -3,7 +3,6 @@ package StaticTable
 import (
 	"github.com/team-zf/framework/Table"
 	"github.com/team-zf/framework/logger"
-	"github.com/team-zf/framework/utils"
 )
 
 type ManualBank struct {
@@ -35,8 +34,7 @@ func init() {
 func GetManualBank(id int) (result *ManualBank) {
 	for _, row := range _ManualBankList {
 		if row.Id == id {
-			newrow := utils.ReflectNew(row)
-			result = newrow.(*ManualBank)
+			result = row
 			break
 		}
 	}

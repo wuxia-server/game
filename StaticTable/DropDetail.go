@@ -3,7 +3,6 @@ package StaticTable
 import (
 	"github.com/team-zf/framework/Table"
 	"github.com/team-zf/framework/logger"
-	"github.com/team-zf/framework/utils"
 )
 
 type DropDetail struct {
@@ -37,8 +36,7 @@ func init() {
 func GetDropDetail(id int) (result *DropDetail) {
 	for _, row := range _DropDetailList {
 		if row.Id == id {
-			newrow := utils.ReflectNew(row)
-			result = newrow.(*DropDetail)
+			result = row
 			break
 		}
 	}
@@ -49,8 +47,7 @@ func GetDropDetailList(dropDetailId int) (result []*DropDetail) {
 	result = make([]*DropDetail, 0)
 	for _, row := range _DropDetailList {
 		if row.DropDetailId == dropDetailId {
-			newrow := utils.ReflectNew(row)
-			result = append(result, newrow.(*DropDetail))
+			result = append(result, row)
 		}
 	}
 	return
