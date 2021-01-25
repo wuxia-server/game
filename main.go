@@ -17,7 +17,7 @@ func main() {
 		modules.AppSetDebug(true),
 		modules.AppSetParse(true),
 		modules.AppSetTableDir("./JSON"),
-		modules.AppSetPStatusTime(5*time.Second),
+		modules.AppSetPStatusTime(10*time.Second),
 	)
 	Control.App.OnConfigurationLoaded(func(app modules.IApp, conf *config.AppConfig) {
 		// 载入数据库模块(账户服)
