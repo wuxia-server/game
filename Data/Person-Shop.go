@@ -7,8 +7,8 @@ import (
 
 func (e *Person) __ShopToJsonMap() map[string]interface{} {
 	result := make(map[string]interface{})
-	for k, v := range e.ShopList {
-		result[utils.NewStringInt(k).ToString()] = v.ToJsonMap()
+	for _, shop := range e.ShopList {
+		result[utils.NewStringInt(shop.ShopId).ToString()] = shop.ToJsonMap()
 	}
 	return result
 }

@@ -13,8 +13,8 @@ import (
 // 物品列表转为JsonMap输出格式
 func (e *Person) __ItemToJsonMap() map[string]interface{} {
 	result := make(map[string]interface{})
-	for k, v := range e.ItemList {
-		result[utils.NewStringInt(k).ToString()] = v.Num
+	for _, item := range e.ItemList {
+		result[utils.NewStringInt(item.ItemId).ToString()] = item.Num
 	}
 	return result
 }

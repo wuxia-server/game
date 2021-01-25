@@ -8,8 +8,8 @@ import (
 // 队伍列表转为JsonMap输出格式
 func (e *Person) __TeamToJsonMap() map[string]interface{} {
 	result := make(map[string]interface{})
-	for k, v := range e.TeamList {
-		result[utils.NewStringInt(k).ToString()] = v.ToJsonMap()
+	for _, team := range e.TeamList {
+		result[utils.NewStringInt(team.TeamId).ToString()] = team.ToJsonMap()
 	}
 	return result
 }

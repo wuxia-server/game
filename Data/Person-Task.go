@@ -8,8 +8,8 @@ import (
 // 任务列表转为JsonMap输出格式
 func (e *Person) __TaskToJsonMap() map[string]interface{} {
 	result := make(map[string]interface{})
-	for k, v := range e.TaskList {
-		result[utils.NewStringInt(k).ToString()] = v.ToJsonMap()
+	for _, task := range e.TaskList {
+		result[utils.NewStringInt(task.DetailId).ToString()] = task.ToJsonMap()
 	}
 	return result
 }

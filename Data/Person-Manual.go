@@ -13,8 +13,8 @@ import (
 // 图鉴列表转为JsonMap输出格式
 func (e *Person) __ManualToJson() map[string]interface{} {
 	result := make(map[string]interface{})
-	for k, v := range e.ManualList {
-		result[utils.NewStringInt(k).ToString()] = v.Level
+	for _, manual := range e.ManualList {
+		result[utils.NewStringInt(manual.ManualId).ToString()] = manual.Level
 	}
 	return result
 }

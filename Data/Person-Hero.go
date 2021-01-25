@@ -12,8 +12,8 @@ import (
 // 英雄列表转为JsonMap输出格式
 func (e *Person) __HeroToJsonMap() map[string]interface{} {
 	result := make(map[string]interface{})
-	for k, v := range e.HeroList {
-		result[utils.NewStringInt(k).ToString()] = v.ToJsonMap()
+	for _, hero := range e.HeroList {
+		result[utils.NewStringInt(hero.HeroId).ToString()] = hero.ToJsonMap()
 	}
 	return result
 }
