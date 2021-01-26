@@ -57,7 +57,7 @@ func (e *FeedExp) Handle(agent *Network.WebSocketAgent) uint32 {
 	hlv := StaticTable.GetHeroLvByExp(dtHero.Exp)
 	nlv := StaticTable.GetHeroLv(hlv.Level + 1)
 	// 这个英雄的经验已经满了
-	if dtHero.Exp == nlv.NeedExp-1 {
+	if dtHero.Exp == nlv.NeedExp-1 && hlv.Level >= person.Level() {
 		return Code.Hero_FeedExp_HeroExpFull
 	}
 
