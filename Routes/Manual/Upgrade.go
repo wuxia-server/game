@@ -79,6 +79,7 @@ func (e *Upgrade) Handle(agent *Network.WebSocketAgent) uint32 {
 		e.ActiveManual(detail, person)
 	}
 
+	e.Data("first_active", firstActive)
 	return messages.RC_Success
 }
 
