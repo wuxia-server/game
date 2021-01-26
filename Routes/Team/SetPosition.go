@@ -41,14 +41,14 @@ func (e *SetPosition) Handle(agent *Network.WebSocketAgent) uint32 {
 		return Code.Team_SetPosition_PositionInvalid
 	}
 
+	// 没有这个英雄
+	if !person.HaveHero(e.HeroId) {
+		return Code.Team_SetPosition_HeroNotExists
+	}
+
 	// 该英雄已经出战了
 	if team.Position1 == e.HeroId || team.Position2 == e.HeroId || team.Position3 == e.HeroId || team.Position4 == e.HeroId || team.Position5 == e.HeroId {
 		return Code.Team_SetPosition_HeroAlreadyWar
-	}
-
-	// 没有这个英雄
-	if person.HaveHero(e.HeroId) {
-		return Code.Team_SetPosition_HeroNotExists
 	}
 
 	switch e.Position {
@@ -66,6 +66,5 @@ func (e *SetPosition) Handle(agent *Network.WebSocketAgent) uint32 {
 	team.Save()
 
 	e.Mod(Rule.RULE_TEAM, team.ToJsonMap())
-
 	return messages.RC_Success
 }
