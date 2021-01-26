@@ -17,23 +17,6 @@ type DungeonStory struct {
 	MonsterList *Table.List `ST:"enemy_list"`  // 怪物列表
 }
 
-func (e *DungeonStory) NextStory() *DungeonStory {
-	if e.NextId == -1 {
-		nextChapterId := GetDungeonChapter(e.ChapterId).NextChapterId
-		if nextChapterId == -1 {
-			return nil
-		} else {
-			if e.Type == 1 {
-				return GetDungeonStory(GetDungeonChapter(nextChapterId).NormalStoryId)
-			} else {
-				return GetDungeonStory(GetDungeonChapter(nextChapterId).EliteStoryId)
-			}
-		}
-	} else {
-		return GetDungeonStory(e.NextId)
-	}
-}
-
 var (
 	_DungeonStoryList []*DungeonStory
 )
@@ -55,10 +38,32 @@ func init() {
 
 func GetDungeonStory(storyId int) (result *DungeonStory) {
 	for _, row := range _DungeonStoryList {
-		if row.ChapterId == storyId {
+		if row.StoryId == storyId {
 			result = row
 			break
 		}
 	}
 	return
+}
+
+func GetDungeonStoryNext(storyId int) (result *DungeonStory) {
+	story := GetDungeonStory(storyId)
+	if story == nil {
+		return
+	}
+
+	if story.NextId == -1 {
+		nextChapterId := GetDungeonChapter(story.ChapterId).NextChapterId
+		if nextChapterId == -1 {
+			return
+		} else {
+			if story.Type == 1 {
+				return GetDungeonStory(GetDungeonChapter(nextChapterId).NormalStoryId)
+			} else {
+				return GetDungeonStory(GetDungeonChapter(nextChapterId).EliteStoryId)
+			}
+		}
+	} else {
+		return GetDungeonStory(story.NextId)
+	}
 }

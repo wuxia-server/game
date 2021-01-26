@@ -6,10 +6,10 @@ import (
 )
 
 type Drop struct {
-	Id           int `ST:"PK"`         // 唯一ID
-	DropId       int `ST:"item_type"`  // 掉落ID
-	DropDetailId int `ST:"use_limit"`  // 掉落细节ID
-	Prob         int `ST:"sell_state"` // 概率值(万分比)
+	Id           int `ST:"PK"`             // 唯一ID
+	DropId       int `ST:"drop_id"`        // 掉落ID
+	DropDetailId int `ST:"drop_detail_id"` // 掉落细节ID
+	Prob         int `ST:"prob"`           // 概率值(万分比)
 }
 
 var (
