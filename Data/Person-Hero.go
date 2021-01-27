@@ -38,7 +38,7 @@ func (e *Person) AddHero(heroId int) (*Network.WebSocketDDM, error) {
 		return nil, errors.New(fmt.Sprintf("用户(%d)已经拥有HeroId(%d), 无法重复获得.", e.UserId(), heroId))
 	}
 
-	hero = new(DataTable.UserHero)
+	hero = DataTable.NewUserHero()
 	hero.Id = e.JoinToUserId(heroId)
 	hero.UserId = e.UserId()
 	hero.HeroId = heroId

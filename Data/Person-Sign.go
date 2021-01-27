@@ -40,7 +40,7 @@ func (e *Person) Sign(day int, method int) (*Network.WebSocketDDM, error) {
 		return nil, errors.New(fmt.Sprintf("用户(%d)Day(%d)已经签过到了(%d), 无法重复签到.", e.UserId(), day, sign.Status))
 	}
 
-	sign = new(DataTable.UserSign)
+	sign = DataTable.NewUserSign()
 	sign.Id = e.JoinToUserId(day)
 	sign.UserId = e.UserId()
 	sign.Day = day

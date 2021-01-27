@@ -39,3 +39,7 @@ func GetTask(taskId int) (result *Task) {
 	}
 	return
 }
+
+func GetTaskList() (result []*Task) {
+	return _TaskList
+}

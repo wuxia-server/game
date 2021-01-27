@@ -28,6 +28,5 @@ func (e *Home) Handle(agent *Network.WebSocketAgent) uint32 {
 		e.Data(key, val)
 	}
 	e.Data("sys_time", time.Now().Unix())
-
 	return messages.RC_Success
 }

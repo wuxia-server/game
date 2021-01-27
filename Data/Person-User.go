@@ -158,34 +158,37 @@ func (e *Person) AddExp(v int) (*Network.WebSocketDDM, error) {
 		return nil, errors.New(fmt.Sprintf("传入的数值有误(%d).", v))
 	}
 
-	if StaticTable.GetRoleLevelLimit() > e.Level() {
+	upgrade := false
+	level := e.Level()
+	limit := StaticTable.GetRoleLevelLimit()
+	if limit >= level {
 		exp := e.User.Exp + v
-		level := e.Level()
 		for {
-			upLevel := level + 1
-			stRoleLv := StaticTable.GetRoleLv(upLevel)
-			// 经验不足以升级
-			if stRoleLv.NeedExp > exp {
+			rlv := StaticTable.GetRoleLv(level + 1)
+			// 已满级或经验不足以升级
+			if rlv == nil || rlv.NeedExp > exp {
 				break
 			}
-			// 已满级
-			if StaticTable.GetRoleLevelLimit() == stRoleLv.Level {
-				break
-			} else {
-				level = upLevel
-			}
+			upgrade = true
+			level = rlv.Level
 		}
 		e.User.Exp = exp
 		e.User.Level = level
 	} else {
 		e.User.Exp += v
 	}
-
 	e.User.Save()
 
-	ddm := new(Network.WebSocketDDM)
-	ddm.Mod(Rule.RULE_USER, e.User.ToJsonMap())
-	return ddm, nil
+	ddmSum := new(Network.WebSocketDDM)
+	ddmSum.Mod(Rule.RULE_USER, e.User.ToJsonMap())
+
+	// 如果升级了, 做条件校验
+	if upgrade {
+		ddm, _ := e.CondVerify()
+		ddmSum.Join(ddm)
+	}
+
+	return ddmSum, nil
 }
 
 // 增加经验(异常直接抛panic)

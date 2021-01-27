@@ -1,1 +1,72 @@
-[[101001, [["cond_type", 1], ["cond_logic", 5], ["cond_para", [5]]]], [101002, [["cond_type", 1], ["cond_logic", 5], ["cond_para", [10]]]], [101003, [["cond_type", 1], ["cond_logic", 7], ["cond_para", [1, 10]]]], [101004, [["cond_type", 1], ["cond_logic", 7], ["cond_para", [11, 99]]]], [102001, [["cond_type", 2], ["cond_logic", 1], ["cond_para", [101]]]], [102002, [["cond_type", 2], ["cond_logic", 1], ["cond_para", [102]]]], [103001, [["cond_type", 3], ["cond_logic", 1], ["cond_para", [1001155]]]], [101005, [["cond_type", 1], ["cond_logic", 5], ["cond_para", [15]]]], [101006, [["cond_type", 1], ["cond_logic", 5], ["cond_para", [20]]]], [101007, [["cond_type", 1], ["cond_logic", 5], ["cond_para", [25]]]], [101008, [["cond_type", 1], ["cond_logic", 5], ["cond_para", [30]]]], [101009, [["cond_type", 1], ["cond_logic", 5], ["cond_para", [35]]]], [101010, [["cond_type", 1], ["cond_logic", 5], ["cond_para", [40]]]], [101011, [["cond_type", 1], ["cond_logic", 5], ["cond_para", [45]]]]]
+[
+	[101001, [
+		["cond_type", 1],
+		["cond_logic", 5],
+		["cond_para", [5]]
+	]],
+	[101002, [
+		["cond_type", 1],
+		["cond_logic", 5],
+		["cond_para", [10]]
+	]],
+	[101003, [
+		["cond_type", 1],
+		["cond_logic", 7],
+		["cond_para", [1, 10]]
+	]],
+	[101004, [
+		["cond_type", 1],
+		["cond_logic", 7],
+		["cond_para", [11, 99]]
+	]],
+	[102001, [
+		["cond_type", 2],
+		["cond_logic", 1],
+		["cond_para", [101]]
+	]],
+	[102002, [
+		["cond_type", 2],
+		["cond_logic", 1],
+		["cond_para", [102]]
+	]],
+	[103001, [
+		["cond_type", 3],
+		["cond_logic", 1],
+		["cond_para", [1001155]]
+	]],
+	[101005, [
+		["cond_type", 1],
+		["cond_logic", 5],
+		["cond_para", [15]]
+	]],
+	[101006, [
+		["cond_type", 1],
+		["cond_logic", 5],
+		["cond_para", [20]]
+	]],
+	[101007, [
+		["cond_type", 1],
+		["cond_logic", 5],
+		["cond_para", [25]]
+	]],
+	[101008, [
+		["cond_type", 1],
+		["cond_logic", 5],
+		["cond_para", [30]]
+	]],
+	[101009, [
+		["cond_type", 1],
+		["cond_logic", 5],
+		["cond_para", [35]]
+	]],
+	[101010, [
+		["cond_type", 1],
+		["cond_logic", 5],
+		["cond_para", [40]]
+	]],
+	[101011, [
+		["cond_type", 1],
+		["cond_logic", 5],
+		["cond_para", [45]]
+	]]
+]

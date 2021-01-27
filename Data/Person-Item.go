@@ -41,7 +41,7 @@ func (e *Person) AddItem(itemId int, num int) (*Network.WebSocketDDM, error) {
 
 	item := e.GetItem(itemId)
 	if item == nil {
-		item = new(DataTable.UserItem)
+		item = DataTable.NewUserItem()
 		item.Id = e.JoinToUserId(itemId)
 		item.UserId = e.UserId()
 		item.ItemId = itemId
