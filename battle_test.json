@@ -1,0 +1,77 @@
+{
+	"camp": {
+		"foe": {
+			"1": {
+				"accuracy": 10000,
+				"add_damage": 0,
+				"anti_crit": 0,
+				"attack": 400,
+				"attack_add_damage": 0,
+				"attack_sub_damage": 0,
+				"block": 50,
+				"crit": 0,
+				"crit_dam": 15000,
+				"deduct_buff": 0,
+				"dodge": 0,
+				"gain_buff": 0,
+				"hero_id": 301131,
+				"hp": 2500,
+				"hp_recover_speed": 0,
+				"magic": 400,
+				"magic_add_damage": 0,
+				"magic_sub_damage": 0,
+				"speed": 10000,
+				"sub_damage": 0
+			}
+		},
+		"own": {
+			"1": {
+				"accuracy": 10000,
+				"add_damage": 0,
+				"anti_crit": 0,
+				"attack": 208,
+				"attack_add_damage": 0,
+				"attack_sub_damage": 0,
+				"block": 26,
+				"crit": 0,
+				"crit_dam": 15000,
+				"deduct_buff": 0,
+				"dodge": 0,
+				"gain_buff": 0,
+				"hero_id": 202753,
+				"hp": 1300,
+				"hp_recover_speed": 0,
+				"magic": 208,
+				"magic_add_damage": 0,
+				"magic_sub_damage": 0,
+				"speed": 10001,
+				"sub_damage": 0
+			}
+		}
+	},
+	"report": [{
+		"foe": 1,
+		"offensive": 1,
+		"own": 1,
+		"rounds": [
+			[{
+				"from": {
+					"camp": 1,
+					"cri": 0,
+					"damages": [
+						[10158, -1, -1]
+					],
+					"pos": 1,
+					"skill": 1001
+				},
+				"to": {
+					"camp": 2,
+					"pos": 1
+				}
+			}]
+		]
+	}],
+	"result": {
+		"star": 3
+	}
+}

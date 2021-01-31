@@ -113,9 +113,10 @@ const (
 const (
 	_ = Cmd.Dungeon_Attack*100 + iota
 
-	Dungeon_Attack_StoryNotExists    // 没有这个关卡
-	Dungeon_Attack_NoRights          // 没有权限攻打
-	Dungeon_Attack_VigorInsufficient // 体力不足
+	Dungeon_Attack_StoryNotExists        // 没有这个关卡
+	Dungeon_Attack_NoRights              // 没有权限攻打
+	Dungeon_Attack_AttackNumInsufficient // 挑战次数不足
+	Dungeon_Attack_VigorInsufficient     // 体力不足
 )
 
 /**

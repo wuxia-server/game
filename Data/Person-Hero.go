@@ -43,19 +43,6 @@ func (e *Person) AddHero(heroId int) (*Network.WebSocketDDM, error) {
 	hero.UserId = e.UserId()
 	hero.HeroId = heroId
 	hero.Level = 1
-	hero.Exp = 0
-	hero.Evolution = 0
-	hero.Latent1 = 0
-	hero.Latent2 = 0
-	hero.Latent3 = 0
-	hero.Latent4 = 0
-	hero.TalismanSlot = 0
-	hero.MountSlot = 0
-	hero.SpiritSlot1 = 0
-	hero.SpiritSlot2 = 0
-	hero.SpiritSlot3 = 0
-	hero.SpiritSlot4 = 0
-	hero.FightPower = 0
 	hero.Save()
 
 	if e.HeroList == nil {
@@ -66,5 +53,6 @@ func (e *Person) AddHero(heroId int) (*Network.WebSocketDDM, error) {
 
 	ddm := new(Network.WebSocketDDM)
 	ddm.Mod(Rule.RULE_HERO, hero.ToJsonMap())
+	ddm.Join(e.CondVerify())
 	return ddm, nil
 }

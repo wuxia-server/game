@@ -45,25 +45,3 @@ func GetDungeonStory(storyId int) (result *DungeonStory) {
 	}
 	return
 }
-
-func GetDungeonStoryNext(storyId int) (result *DungeonStory) {
-	story := GetDungeonStory(storyId)
-	if story == nil {
-		return
-	}
-
-	if story.NextId == -1 {
-		nextChapterId := GetDungeonChapter(story.ChapterId).NextChapterId
-		if nextChapterId == -1 {
-			return
-		} else {
-			if story.Type == 1 {
-				return GetDungeonStory(GetDungeonChapter(nextChapterId).NormalStoryId)
-			} else {
-				return GetDungeonStory(GetDungeonChapter(nextChapterId).EliteStoryId)
-			}
-		}
-	} else {
-		return GetDungeonStory(story.NextId)
-	}
-}

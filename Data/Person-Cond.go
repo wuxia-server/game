@@ -5,16 +5,16 @@ import (
 	"github.com/wuxia-server/game/StaticTable"
 )
 
-func (e *Person) CondVerify() (*Network.WebSocketDDM, error) {
-	ddmSum := new(Network.WebSocketDDM)
+func (e *Person) CondVerify() *Network.WebSocketDDM {
+	ddm := new(Network.WebSocketDDM)
 
-	ddm, _ := e.__CondVerify_Task()
-	ddmSum.Join(ddm)
+	ddm.Join(e.__CondVerify_Task())
+	ddm.Join(e.__CondVerify_Shop())
 
-	return ddmSum, nil
+	return ddm
 }
 
-func (e *Person) __CondVerify_Task() (*Network.WebSocketDDM, error) {
+func (e *Person) __CondVerify_Task() *Network.WebSocketDDM {
 	// 任务细节ID链表 (索引 0.当前任务细节ID  1.父级任务细节ID)
 	dids := make([][]int, 0)
 	for _, task := range StaticTable.GetTaskList() {
@@ -57,7 +57,54 @@ func (e *Person) __CondVerify_Task() (*Network.WebSocketDDM, error) {
 			ddmSum.Join(ddm)
 		}
 	}
-	return ddmSum, nil
+	return ddmSum
+}
+
+func (e *Person) __CondVerify_Shop() *Network.WebSocketDDM {
+	ddmSum := new(Network.WebSocketDDM)
+
+	newShopList := make(map[int]int)
+	for _, shop := range StaticTable.GetShopList() {
+		if _, ok := newShopList[shop.ShopType]; ok {
+			continue
+		}
+		ids, _ := shop.LimitCondIds.ToIntArray()
+		if len(ids) == 0 || e.__VerifyIds(ids) {
+			newShopList[shop.ShopType] = shop.ShopId
+		}
+	}
+
+	oldShopList := make(map[int]int)
+	for _, v := range e.ShopList {
+		shop := StaticTable.GetShop(v.ShopId)
+		oldShopList[shop.ShopType] = v.ShopId
+	}
+
+	for shopType, shopId := range oldShopList {
+		if _, ok := newShopList[shopType]; ok {
+			continue
+		}
+		ddm, err := e.DelShop(shopId)
+		if err != nil {
+			panic(err)
+		} else {
+			ddmSum.Join(ddm)
+		}
+	}
+
+	for shopType, shopId := range newShopList {
+		v, ok := oldShopList[shopType]
+		if ok && v == shopId {
+			continue
+		}
+		ddm, err := e.AddShop(shopId)
+		if err != nil {
+			panic(err)
+		} else {
+			ddmSum.Join(ddm)
+		}
+	}
+	return ddmSum
 }
 
 // 效验条件ID (支持多个ID, 条件为并且)

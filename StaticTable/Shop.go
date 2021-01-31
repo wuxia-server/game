@@ -45,3 +45,7 @@ func GetShop(shopId int) (result *Shop) {
 	}
 	return
 }
+
+func GetShopList() (result []*Shop) {
+	return _ShopList
+}

@@ -27,33 +27,32 @@ func (e *Reward) Handle(agent *Network.WebSocketAgent) uint32 {
 		return messages.RC_NoPermission
 	}
 
-	stTaskDetail := StaticTable.GetTaskDetail(e.DetailId)
+	detail := StaticTable.GetTaskDetail(e.DetailId)
 	// 没有这个任务细节
-	if stTaskDetail == nil {
+	if detail == nil {
 		return Code.Task_Reward_DetailNotExists
 	}
 
-	dtTask := person.GetTask(e.DetailId)
+	task := person.GetTask(e.DetailId)
 	// 未满足条件, 无法领取奖励
-	if dtTask == nil {
+	if task == nil {
 		return Code.Task_Reward_UnableReward
 	}
-
 	// 已经领取过了
-	if dtTask.Status == 2 {
+	if task.Status == 2 {
 		return Code.Task_Reward_AlreadyReward
 	}
 
 	// ### 处理领取
 	{
-		dtTask.Status = 2
-		dtTask.Save()
-		e.Mod(Rule.RULE_TASK, dtTask.ToJsonMap())
+		task.Status = 2
+		task.Save()
+		e.Mod(Rule.RULE_TASK, task.ToJsonMap())
 	}
 
 	// ### 处理掉落
 	{
-		gainItems, ddm := person.Drop2(stTaskDetail.TaskDropId)
+		gainItems, ddm := person.Drop2(detail.TaskDropId)
 		e.Data("gain_items", gainItems)
 		e.Join(ddm)
 	}

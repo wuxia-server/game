@@ -179,16 +179,15 @@ func (e *Person) AddExp(v int) (*Network.WebSocketDDM, error) {
 	}
 	e.User.Save()
 
-	ddmSum := new(Network.WebSocketDDM)
-	ddmSum.Mod(Rule.RULE_USER, e.User.ToJsonMap())
+	ddm := new(Network.WebSocketDDM)
+	ddm.Mod(Rule.RULE_USER, e.User.ToJsonMap())
 
 	// 如果升级了, 做条件校验
-	if upgrade {
-		ddm, _ := e.CondVerify()
-		ddmSum.Join(ddm)
+	if upgrade || true {
+		ddm.Join(e.CondVerify())
 	}
 
-	return ddmSum, nil
+	return ddm, nil
 }
 
 // 增加经验(异常直接抛panic)

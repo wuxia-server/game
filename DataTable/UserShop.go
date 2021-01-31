@@ -134,6 +134,23 @@ func (e *UserShop) Save() {
 	Control.GameDB.AddMsg(msg)
 }
 
+func (e *UserShop) Del() {
+	msg := &dal.DalMessage{
+		UserId: e.UserId,
+		Table:  e,
+	}
+	msg.RunFunc = func(db dal.IConnDB) error {
+		_, err := db.Exec(dal.MarshalDelSql(e, "id"),
+			e.Id,
+		)
+		if err != nil {
+			logger.Error("数据表[%s]删除失败, 错误原因: %+v", e.GetTableName(), err)
+		}
+		return err
+	}
+	Control.GameDB.AddMsg(msg)
+}
+
 func (e *UserShop) GenerateGoodsList() {
 	shop := StaticTable.GetShop(e.ShopId)
 	details := StaticTable.GetShopDetailList(shop.GoodsBank)
@@ -164,7 +181,7 @@ func (e *UserShop) GenerateGoodsList() {
 	// 更新商品列表
 	e.DetailList = NewShopDetailList()
 	for rank, v := range group {
-		if v.DiscountParams == nil {
+		if v.DiscountParams.Empty() {
 			e.DetailList.Items[rank] = NewShopDetail(v.Id, 0, nil)
 		} else {
 			e.DetailList.Items[rank] = NewShopDetail(v.Id, 0, v.DiscountParams.Rnd())
